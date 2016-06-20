@@ -17,10 +17,8 @@
 
 -(void)playBlackjack;
 -(void)dealNewRound;
--(void)dealCardToPlayer;
--(void)dealCardToHouse;
--(void)processPlayerTurn;
--(void)processHouseTurn;
+-(void)dealCardToPlayer:(FISBlackjackPlayer *)player;
+-(void)processPlayerTurn:(FISBlackjackPlayer *)player;
 -(BOOL)houseWins;
 -(void)incrementWinsAndLossesForHouseWins:(BOOL)houseWins;
 

@@ -31,13 +31,13 @@
     NSUInteger handLimit = 5;
     for (NSUInteger i = 0; i < (handLimit - self.player.cardsInHand.count); i++) {
         
-        [self dealCardToPlayer];
-        [self processPlayerTurn];
+        [self dealCardToPlayer:self.player];
+        [self processPlayerTurn:self.player];
         if (self.player.busted)
             break;
         
-        [self dealCardToHouse];
-        [self processHouseTurn];
+        [self dealCardToPlayer:self.house];
+        [self processPlayerTurn:self.house];
         if (self.house.busted)
             break;
     }
@@ -47,28 +47,19 @@
 }
 
 -(void)dealNewRound {
-    [self dealCardToPlayer];
-    [self dealCardToHouse];
-    [self dealCardToPlayer];
-    [self dealCardToHouse];
+    [self dealCardToPlayer:self.player];
+    [self dealCardToPlayer:self.house];
+    [self dealCardToPlayer:self.player];
+    [self dealCardToPlayer:self.house];
 }
 
--(void)dealCardToPlayer {
-    [self.player acceptCard:[self.deck drawNextCard]];
+-(void)dealCardToPlayer:(FISBlackjackPlayer *)player {
+    [player acceptCard:[self.deck drawNextCard]];
 }
 
--(void)dealCardToHouse {
-    [self.house acceptCard:[self.deck drawNextCard]];
-}
-
--(void)processPlayerTurn {
-    if (self.player.shouldHit && !self.player.busted && !self.player.stayed)
-        [self dealCardToPlayer];
-}
-
--(void)processHouseTurn {
-    if (self.house.shouldHit && !self.house.busted && !self.house.stayed)
-        [self dealCardToHouse];
+-(void)processPlayerTurn:(FISBlackjackPlayer *)player {
+    if (player.shouldHit && !player.busted && !player.stayed)
+        [self dealCardToPlayer:player];
 }
 
 -(BOOL)houseWins {
